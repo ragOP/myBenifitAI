@@ -86,10 +86,18 @@ const questions: Question[] = [
   },
 ];
 
-const QuestionPage: React.FC = () => {
+const QuestionPage: React.FC = ({navigation, route}) => {
+  const {uuid} = route.params;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [inputValue, setInputValue] = useState<string>('');
+  const [isMedicare, setIsMedicare] = useState<boolean>(true);
+  const [isCreditDebt, setIsCreditDebt] = useState<boolean>(true);
+  const [isDiscountedInsurence, setIsDiscountedInsurance] =
+    useState<boolean>(true);
+  const [isComponsation, setIsComponsation] = useState<boolean>(true);
+  const [isACA, setIsACA] = useState<boolean>(true);
+  const [name, setName] = useState<string>('');
   const slideAnim = useRef(new Animated.Value(0)).current;
 
   const currentQuestion = questions[currentIndex];
@@ -103,7 +111,65 @@ const QuestionPage: React.FC = () => {
     }).start();
   };
 
+  const sendMessagesToServer = async (messages: Record<number, string>) => {
+    try {
+      const qualifiedFor = {
+        medicare: !!isMedicare,
+        creditDebtRelief: !!isCreditDebt,
+        discountedAutoInsurancePlan: !!isDiscountedInsurence,
+        higherCompensationForAccidents: !!isComponsation,
+        aca: !!isACA,
+      };
+
+      const replies = Object.keys(messages)
+        .sort((a, b) => Number(a) - Number(b))
+        .map(key => messages[Number(key)]);
+
+      const payload = {
+        userId: uuid,
+        replies,
+        qualifiedFor,
+      };
+
+      if (!uuid || replies.length === 0) {
+        console.log('Invalid payload:', payload);
+        return;
+      }
+
+      console.log('Sending payload:', JSON.stringify(payload, null, 2));
+
+      const response = await fetch('https://benifit-gpt-be.onrender.com/api/messages', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        console.log('Error:', response);
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Messages sent successfully:', data);
+    } catch (error) {
+      console.log('Error sending messages:', error);
+    }
+  };
+
   const handleNext = (answer: string) => {
+    if (questions[currentIndex].id === 7) {
+      setIsDiscountedInsurance(answer === 'Yes');
+    } else if (questions[currentIndex].id === 8) {
+      setIsComponsation(answer === 'Yes');
+    } else if (questions[currentIndex].id === 9) {
+      setIsACA(answer === 'Yes');
+    } else if (questions[currentIndex].id === 10) {
+      setIsCreditDebt(answer === 'Yes');
+    }
+
+    if (questions[currentIndex].id === 1) {
+      setName(answer);
+    }
     if (currentIndex < questions.length - 1) {
       setAnswers(prev => ({
         ...prev,
@@ -114,6 +180,19 @@ const QuestionPage: React.FC = () => {
       slideInFromRight();
     } else {
       console.log('answers', answers);
+      setTimeout(() => {
+        setTimeout(() => {
+          navigation.navigate('Congrats', {
+            isMedicare,
+            isCreditDebt,
+            isDiscountedInsurence,
+            isComponsation,
+            isACA,
+            name,
+          });
+        }, 1000);
+        sendMessagesToServer(answers);
+      }, 1000);
     }
   };
 
