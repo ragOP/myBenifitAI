@@ -26,12 +26,6 @@ interface Question {
 }
 
 const questions: Question[] = [
-  {
-    id: 0,
-    text: "Let's Kick off the conversation",
-    type: 'choice',
-    options: ['Start'],
-  },
   {id: 1, text: "What's your Full Name?", type: 'text', keyType: 'alphabet'},
   {id: 2, text: "What's your Running Age?", type: 'text', keyType: 'alphabet'},
   {id: 3, text: "What's your zipcode?", type: 'text', keyType: 'numeric'},
@@ -311,7 +305,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     paddingBottom: 60,
   },
   questionText: {

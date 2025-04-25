@@ -1,9 +1,16 @@
-import React from 'react';
-import {ImageBackground, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {ImageBackground} from 'react-native';
 
 const backgroundImage = require('../assets/back.png');
 const centerImage = require('../assets/center.png');
-const Lander = () => {
+const Lander = ({navigation}) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Home');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <ImageBackground
       source={backgroundImage}

@@ -81,7 +81,7 @@ const Home = ({navigation}) => {
           uuid: uuid,
         });
       }
-    }, 4000);
+    }, 2000);
   };
 
   useEffect(() => {
