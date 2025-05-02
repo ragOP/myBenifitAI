@@ -11,6 +11,7 @@ import {
   Animated,
   StatusBar,
   ImageBackground,
+  Image,
 } from 'react-native';
 
 const backgroundImage = require('../assets/back.png');
@@ -132,11 +133,14 @@ const QuestionPage: React.FC = ({navigation, route}) => {
 
       console.log('Sending payload:', JSON.stringify(payload, null, 2));
 
-      const response = await fetch('https://benifit-gpt-be.onrender.com/api/messages', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        'https://benifit-gpt-be.onrender.com/api/messages',
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload),
+        },
+      );
 
       if (!response.ok) {
         console.log('Error:', response);
@@ -176,7 +180,7 @@ const QuestionPage: React.FC = ({navigation, route}) => {
       console.log('answers', answers);
       setTimeout(() => {
         setTimeout(() => {
-          navigation.navigate('Congrats', {
+          navigation.navigate('LoadingPage', {
             isMedicare,
             isCreditDebt,
             isDiscountedInsurence,
@@ -220,6 +224,18 @@ const QuestionPage: React.FC = ({navigation, route}) => {
         <View style={styles.container}>
           <View style={styles.progressBarContainer}>
             <View style={[styles.progressBar, {width: `${progress * 100}%`}]} />
+          </View>
+
+          <View style={styles.header}>
+            <Image
+              source={require('../assets/center.png')}
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.subHeader}>
+            <Text style={styles.subHeaderText}>
+              22,578 Seniors Helped In Last 24 Hours!
+            </Text>
           </View>
 
           <KeyboardAvoidingView
@@ -291,13 +307,40 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 50,
   },
+  header: {
+    width: '100%',
+    backgroundColor: '#000',
+    paddingVertical: 10,
+    alignItems: 'center',
+    height: 80,
+  },
+  logo: {
+    width: '60%',
+    height: 60,
+    resizeMode: 'contain',
+  },
+  subHeader: {
+    width: '100%',
+    backgroundColor: '#fff',
+    paddingVertical: 5,
+    alignItems: 'center',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  subHeaderText: {
+    color: '#000',
+    fontSize: 12,
+    marginTop: 1,
+    fontWeight: '600',
+  },
   progressBarContainer: {
     height: 4,
     backgroundColor: '#333',
     borderRadius: 2,
     overflow: 'hidden',
     marginBottom: 24,
-    marginTop: 10,
+    position: 'relative',
+    top: '20%',
   },
   progressBar: {
     height: 4,

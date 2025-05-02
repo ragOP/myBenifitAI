@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import QuestionPage from './pages/QuestionPage';
 import Congratulations from './pages/Congralutions';
 import Lander from './pages/Lander';
+import LoadingPage from './pages/LoadingPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ const App = () => {
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
         <Stack.Screen name="ChatPage" component={QuestionPage} options={{headerShown: false}} />
         <Stack.Screen name="Congrats" component={Congratulations} options={{headerShown: false}} />
+        <Stack.Screen name="LoadingPage" component={LoadingPage} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

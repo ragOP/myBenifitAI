@@ -7,7 +7,7 @@ const Lander = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate('Home');
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
