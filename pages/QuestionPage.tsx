@@ -30,51 +30,52 @@ const questions: Question[] = [
   {id: 1, text: "What's your Full Name?", type: 'text', keyType: 'alphabet'},
   {id: 2, text: "What's your Running Age?", type: 'text', keyType: 'alphabet'},
   {id: 3, text: "What's your zipcode?", type: 'text', keyType: 'numeric'},
-  {id: 4, text: 'Are you on Medicare?', type: 'choice', options: ['Yes', 'No']},
+  {id:4, text: 'What is your email address?', type: 'text', keyType: 'alphabet'},
+  {id: 5, text: 'Are you on Medicare?', type: 'choice', options: ['Yes', 'No']},
   {
-    id: 5,
+    id: 6,
     text: 'Do you have any of the following health conditions?',
     type: 'choice',
     options: ['Alzheimers', 'Diabetes', 'Hypertension', 'Arthritis', 'No'],
   },
   {
-    id: 6,
+    id: 7,
     text: 'Do you own your home or rent?',
     type: 'choice',
     options: ['I Own', 'I Rent'],
   },
   {
-    id: 7,
+    id: 8,
     text: 'Do you drive atleast once a week?',
     type: 'choice',
     options: ['Yes', 'No'],
   },
   {
-    id: 8,
+    id: 9,
     text: 'Do you have any DUIs in the last 6 months?',
     type: 'choice',
     options: ['Yes', 'No'],
   },
   {
-    id: 9,
+    id: 10,
     text: 'Have you faced any motor vehicle accidents in the last 2 years?',
     type: 'choice',
     options: ['Yes', 'No'],
   },
   {
-    id: 10,
+    id: 11,
     text: 'Do you have any children between the age of 18-64?',
     type: 'choice',
     options: ['Yes', 'No'],
   },
   {
-    id: 11,
+    id: 12,
     text: 'Do you have a credit card debt of 10,000 or more?',
     type: 'choice',
     options: ['Yes', 'No'],
   },
   {
-    id: 12,
+    id: 13,
     text: 'Do you exercise at least once a week?',
     type: 'choice',
     options: ['Yes', 'No'],
@@ -270,6 +271,7 @@ const QuestionPage: React.FC = ({navigation, route}) => {
                   onSubmitEditing={handleTextSubmit}
                   value={inputValue}
                   onChangeText={text => setInputValue(text)}
+                  autoFocus={true}
                 />
               )}
             </Animated.View>

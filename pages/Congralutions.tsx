@@ -64,7 +64,7 @@ const Congratulations = ({route}) => {
             <Text style={styles.congratsText}>Congratulations, {name}!</Text>
             <Text style={styles.benefitText}>
               Here are the{' '}
-              <Text style={styles.highlightText}>{totalBenefits}</Text> Benefits
+              <Text style={styles.highlightText}>{totalBenefits}</Text> {totalBenefits > 1 ? "Benefits" : "Benefit"} You Qualify For:
               You Qualify
             </Text>
             <Text style={styles.subText}>Go one by one!</Text>
@@ -241,10 +241,10 @@ const Congratulations = ({route}) => {
           )}
 
           <Text style={styles.warningText}>
-            Beware of other fraudulent & similar looking websites that might
+            {/* Beware of other fraudulent & similar looking websites that might
             look exactly like ours, we have no affiliation with them. This is
             the only official website to claim your Burial Protection Plan with
-            the domain name burialprotectionplan.org.
+            the domain name burialprotectionplan.org. */}
           </Text>
         </ImageBackground>
       </ScrollView>
@@ -329,13 +329,26 @@ const styles = StyleSheet.create({
   greenText: {color: '#559c5a', fontWeight: 'bold'},
   instructionText: {fontSize: 16, marginVertical: 10, color: '#000'},
   callButton: {
-    backgroundColor: '#01b55e',
+    backgroundColor: '#328c57',
     paddingVertical: 15,
     alignItems: 'center',
     borderRadius: 50,
     width: '100%',
+    shadowColor: '#05ff48',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 10,
   },
-  callButtonText: {color: '#FFF', fontSize: 18, fontWeight: 'bold'},
+  
+  callButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   note: {
     fontSize: 10,
     marginTop: -7,
@@ -351,6 +364,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: '#fff',
     paddingHorizontal: 20,
+    height: 100,
   },
 });
 
