@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
     try {
       const existingId = await AsyncStorage.getItem('uniqueUserId');
 
-      if (!existingId) {
+      if (existingId) {
         const randomUuid = generateUniqueId();
         await AsyncStorage.setItem('uniqueUserId', randomUuid);
         setUuid(randomUuid);
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
   centerImage: {
     width: 300,
     height: 100,
-    marginTop: 60,
+    marginTop: 80,
   },
   description: {
-    marginTop: 130,
+    marginTop: 150,
     textAlign: 'center',
     fontSize: 26,
     color: 'white',
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 15,
     paddingHorizontal: 70,
-    marginTop: 80,
+    marginTop: 30,
   },
   buttonText: {
     color: 'white',
