@@ -65,7 +65,7 @@ const Congratulations = ({route}) => {
             <Text style={styles.benefitText}>
               Here are the{' '}
               <Text style={styles.highlightText}>{totalBenefits}</Text> {totalBenefits > 1 ? "Benefits" : "Benefit"} You Qualify For:
-              You Qualify
+             
             </Text>
             <Text style={styles.subText}>Go one by one!</Text>
           </View>
@@ -115,10 +115,10 @@ const Congratulations = ({route}) => {
                 </Text>
                 <Image
                   source={require('../assets/benifit2.webp')}
-                  style={styles.cardImage}
+                  style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
-                  Aman, You're qualified to claim 100% Debt Relief by end of
+                {name}, You're qualified to claim 100% Debt Relief by end of
                   today
                   <Text style={styles.greenText}>(RARE)</Text>
                 </Text>
@@ -150,7 +150,7 @@ const Congratulations = ({route}) => {
                 </Text>
                 <Image
                   source={require('../assets/benifit3.webp')}
-                  style={styles.cardImage}
+                  style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
                   Aman, You're <Text style={styles.greenText}>eligible</Text>{' '}
@@ -184,11 +184,11 @@ const Congratulations = ({route}) => {
                 </Text>
                 <Image
                   source={require('../assets/benifit4.webp')}
-                  style={styles.cardImage}
+                  style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
                   Based on your answers, you might be eligible for a
-                  <Text style={styles.greenText}>higher compensation</Text> on
+                  <Text style={styles.greenText}> higher compensation</Text> on
                   your accident. (Most people get{' '}
                   <Text style={styles.greenText}>3x</Text> of their past
                   compensations)
@@ -219,7 +219,7 @@ const Congratulations = ({route}) => {
                 </Text>
                 <Image
                   source={require('../assets/benifit1.webp')}
-                  style={styles.cardImage}
+                  style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
                   This food allowance card gives you{' '}
@@ -322,6 +322,13 @@ const styles = StyleSheet.create({
     width: 200,
     height: 150,
     resizeMode: 'contain',
+    marginBottom: 15,
+    borderRadius: 20,
+  },
+  cardImage2: {
+    width: 230,
+    height: 150,
+   
     marginBottom: 15,
     borderRadius: 20,
   },

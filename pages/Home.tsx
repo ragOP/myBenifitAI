@@ -99,8 +99,10 @@ const Home = ({navigation}) => {
         for free!
       </Text>
       <TouchableOpacity onPress={handleStartNow} style={styles.button}>
-        <Text style={styles.buttonText}> CLICK HERE TO START</Text>
+        <Text style={styles.buttonText}> CLICK HERE TO START!</Text>
+        <Text style={styles.subheading}>Simple, Free and Instant.</Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.button2}>
         <Text style={styles.buttonText2}> Over 2M+ Seniors Helped 💸</Text>
       </TouchableOpacity>
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   description: {
-    marginTop: 100,
+    marginTop: 130,
     textAlign: 'center',
     fontSize: 26,
     color: 'white',
@@ -129,9 +131,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'green',
     borderRadius: 50,
-    paddingVertical: 10,
-    paddingHorizontal: 50,
-    marginTop: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 70,
+    marginTop: 80,
   },
   buttonText: {
     color: 'white',
@@ -152,6 +154,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  subheading: {
+    marginTop: 0,
+    fontSize: 18,
+    color: 'white',
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  
 });
 
 export default Home;

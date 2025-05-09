@@ -310,25 +310,36 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   header: {
-    width: '100%',
-    backgroundColor: '#000',
+    position: 'absolute',
+    top: 40,
+    left: 0,
+    right: 0,
+    backgroundColor: 'black',
     paddingVertical: 10,
     alignItems: 'center',
     height: 80,
+    zIndex: 10,
   },
-  logo: {
-    width: '60%',
-    height: 60,
-    resizeMode: 'contain',
-  },
+  
   subHeader: {
-    width: '100%',
+    position: 'absolute',
+    top: 120, // directly below header
+    left: 0,
+    right: 0,
     backgroundColor: '#fff',
     paddingVertical: 5,
     alignItems: 'center',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    zIndex: 5,
   },
+  
+  logo: {
+    width: '60%',
+    height: 60,
+    resizeMode: 'contain',
+  },
+
   subHeaderText: {
     color: '#000',
     fontSize: 12,
