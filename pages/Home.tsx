@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
     try {
       const existingId = await AsyncStorage.getItem('uniqueUserId');
 
-      if (existingId) {
+      if (!existingId) {
         const randomUuid = generateUniqueId();
         await AsyncStorage.setItem('uniqueUserId', randomUuid);
         setUuid(randomUuid);
