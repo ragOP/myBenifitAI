@@ -8,6 +8,7 @@ import {
   ScrollView,
   StatusBar,
   ImageBackground,
+  Linking
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const backgroundImage = require('../assets/back.png');
@@ -92,8 +93,12 @@ const Congratulations = ({route}) => {
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity style={styles.callButton}>
-                  <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text>
+                <TouchableOpacity 
+                 onPress={() => Linking.openURL('tel:+918447648730')}
+                style={styles.callButton}>
+               
+                <Text style={styles.callButtonText}>CALL +91 84476 48730</Text>
+                  {/* <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text> */}
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
