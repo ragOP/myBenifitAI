@@ -12,6 +12,7 @@ import {
   StatusBar,
   ImageBackground,
   Image,
+  Alert
 } from 'react-native';
 
 const backgroundImage = require('../assets/back.png');
@@ -195,12 +196,40 @@ const QuestionPage: React.FC = ({navigation, route}) => {
     }
   };
 
-  const handleTextSubmit = () => {
-    if (inputValue.trim()) {
-      handleNext(inputValue.trim());
-    }
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
-
+  
+  const validatePincode = (pincode: string): boolean => {
+    const pinRegex = /^\d{5,6}$/;
+    return pinRegex.test(pincode);
+  };
+  
+  // const handleTextSubmit = () => {
+  //   if (inputValue.trim()) {
+  //     handleNext(inputValue.trim());
+  //   }
+  // };
+  const handleTextSubmit = () => {
+    const trimmed = inputValue.trim();
+    const questionId = currentQuestion.id;
+  
+    if (!trimmed) return;
+  
+    if (questionId === 3 && !validatePincode(trimmed)) {
+      Alert.alert('Please enter a valid 5 or 6-digit zipcode.');
+      return;
+    }
+  
+    if (questionId === 4 && !validateEmail(trimmed)) {
+      Alert.alert('Please enter a valid email address.');
+      return;
+    }
+  
+    handleNext(trimmed);
+  };
+  
   const progress = (currentIndex + 1) / questions.length;
   return (
     <SafeAreaView style={styles.safeArea}>
