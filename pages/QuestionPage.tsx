@@ -29,7 +29,7 @@ interface Question {
 
 const questions: Question[] = [
   {id: 1, text: "What's your Full Name?", type: 'text', keyType: 'alphabet'},
-  {id: 2, text: "What's your Running Age?", type: 'text', keyType: 'alphabet'},
+  {id: 2, text: "What's your Running Age?", type: 'text', keyType: 'numeric'},
   {id: 3, text: "What's your zipcode?", type: 'text', keyType: 'numeric'},
   {id:4, text: 'What is your email address?', type: 'text', keyType: 'alphabet'},
   {id: 5, text: 'Are you on Medicare?', type: 'choice', options: ['Yes', 'No']},
@@ -398,6 +398,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,
+    marginTop: 24,
   },
   subText: {
     color: '#aaa',

@@ -4,7 +4,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Dimensions
 } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -54,7 +58,7 @@ const Home = ({navigation}) => {
             isComponsation:
               data.data.qualifiedFor.higherCompensationForAccidents,
             isACA: data.data.qualifiedFor.aca,
-            name: data.data.responses[1] || 'User',
+            name: data.data.responses[0] || 'User',
           });
           setIsAlreadyQualified(true);
         }
@@ -117,51 +121,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   centerImage: {
-    width: 300,
-    height: 100,
-    marginTop: 80,
+    width: width * 0.75,
+    height: height * 0.12,
+    marginTop: height * 0.1,
+    resizeMode: 'contain',
   },
   description: {
-    marginTop: 150,
+    marginTop: height * 0.15,
     textAlign: 'center',
-    fontSize: 26,
+    fontSize: width * 0.06,
     color: 'white',
-    paddingHorizontal: 20,
+    paddingHorizontal: width * 0.05,
   },
   button: {
     backgroundColor: 'green',
     borderRadius: 50,
-    paddingVertical: 15,
-    paddingHorizontal: 70,
-    marginTop: 30,
+    paddingVertical: height * 0.02,
+    paddingHorizontal: width * 0.2,
+    marginTop: height * 0.03,
   },
   buttonText: {
     color: 'white',
-    fontSize: 26,
+    fontSize: width * 0.05,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   button2: {
     backgroundColor: 'black',
     borderRadius: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    marginTop: 20,
+    paddingVertical: height * 0.01,
+    paddingHorizontal: width * 0.05,
+    marginTop: height * 0.02,
   },
   buttonText2: {
     color: 'white',
-    fontSize: 14,
+    fontSize: width * 0.035,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   subheading: {
-    marginTop: 0,
-    fontSize: 18,
+    marginTop: height * 0.01,
+    fontSize: width * 0.04,
     color: 'white',
     fontWeight: '300',
     textAlign: 'center',
   },
-  
 });
 
 export default Home;

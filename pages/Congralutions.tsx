@@ -8,8 +8,10 @@ import {
   ScrollView,
   StatusBar,
   ImageBackground,
-  Linking
+  Linking,
+  BackHandler
 } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const backgroundImage = require('../assets/back.png');
 
@@ -22,6 +24,27 @@ const Congratulations = ({route}) => {
     isACA,
     name,
   } = route.params;
+
+   const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        return true; 
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
 
   const [totalBenefits, setTotalBenefits] = useState(0);
 
