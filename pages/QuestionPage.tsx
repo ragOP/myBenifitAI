@@ -97,6 +97,8 @@ const QuestionPage: React.FC = ({navigation, route}) => {
   const [name, setName] = useState<string>('');
   const slideAnim = useRef(new Animated.Value(0)).current;
 
+  // console.log("uuid", uuid);
+
   const currentQuestion = questions[currentIndex];
 
   const slideInFromRight = () => {
