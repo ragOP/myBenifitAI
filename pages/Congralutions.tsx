@@ -9,9 +9,9 @@ import {
   StatusBar,
   ImageBackground,
   Linking,
-  BackHandler
+  BackHandler,
 } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const backgroundImage = require('../assets/back.png');
 
@@ -25,9 +25,9 @@ const Congratulations = ({route}) => {
     name,
   } = route.params;
 
-   const navigation = useNavigation();
+  const navigation = useNavigation();
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+    const unsubscribe = navigation.addListener('beforeRemove', e => {
       e.preventDefault();
     });
 
@@ -37,14 +37,14 @@ const Congratulations = ({route}) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        return true; 
+        return true;
       };
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [])
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
   );
-
 
   const [totalBenefits, setTotalBenefits] = useState(0);
 
@@ -88,8 +88,8 @@ const Congratulations = ({route}) => {
             <Text style={styles.congratsText}>Congratulations, {name}!</Text>
             <Text style={styles.benefitText}>
               Here are the{' '}
-              <Text style={styles.highlightText}>{totalBenefits}</Text> {totalBenefits > 1 ? "Benefits" : "Benefit"} You Qualify For:
-             
+              <Text style={styles.highlightText}>{totalBenefits}</Text>{' '}
+              {totalBenefits > 1 ? 'Benefits' : 'Benefit'} You Qualify For:
             </Text>
             <Text style={styles.subText}>Go one by one!</Text>
           </View>
@@ -116,11 +116,12 @@ const Congratulations = ({route}) => {
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity 
-                 onPress={() => Linking.openURL('tel:+918447648730')}
-                style={styles.callButton}>
-               
-                <Text style={styles.callButtonText}>CALL +91 84476 48730</Text>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL('tel:+918447648730')}
+                  style={styles.callButton}>
+                  <Text style={styles.callButtonText}>
+                    CALL +91 84476 48730
+                  </Text>
                   {/* <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text> */}
                 </TouchableOpacity>
                 <Text style={styles.note}>
@@ -146,7 +147,7 @@ const Congratulations = ({route}) => {
                   style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
-                {name}, You're qualified to claim 100% Debt Relief by end of
+                  {name}, You're qualified to claim 100% Debt Relief by end of
                   today
                   <Text style={styles.greenText}>(RARE)</Text>
                 </Text>
@@ -356,7 +357,7 @@ const styles = StyleSheet.create({
   cardImage2: {
     width: 230,
     height: 150,
-   
+
     marginBottom: 15,
     borderRadius: 20,
   },
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 10,
   },
-  
+
   callButtonText: {
     color: '#fff',
     fontWeight: 'bold',

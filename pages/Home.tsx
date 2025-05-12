@@ -4,13 +4,14 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  BackHandler,
 } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-
+const {width, height} = Dimensions.get('window');
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const backgroundImage = require('../assets/back.png');
 const centerImage = require('../assets/center.png');
@@ -85,8 +86,16 @@ const Home = ({navigation}) => {
           uuid: uuid,
         });
       }
-    }, 2000);
+    }, 1000);
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', e => {
+      e.preventDefault();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     storeUuid();

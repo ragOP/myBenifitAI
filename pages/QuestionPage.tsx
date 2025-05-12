@@ -12,7 +12,7 @@ import {
   StatusBar,
   ImageBackground,
   Image,
-  Alert
+  Alert,
 } from 'react-native';
 
 const backgroundImage = require('../assets/back.png');
@@ -31,7 +31,12 @@ const questions: Question[] = [
   {id: 1, text: "What's your Full Name?", type: 'text', keyType: 'alphabet'},
   {id: 2, text: "What's your Running Age?", type: 'text', keyType: 'numeric'},
   {id: 3, text: "What's your zipcode?", type: 'text', keyType: 'numeric'},
-  {id:4, text: 'What is your email address?', type: 'text', keyType: 'alphabet'},
+  {
+    id: 4,
+    text: 'What is your email address?',
+    type: 'text',
+    keyType: 'alphabet',
+  },
   {id: 5, text: 'Are you on Medicare?', type: 'choice', options: ['Yes', 'No']},
   {
     id: 6,
@@ -181,20 +186,15 @@ const QuestionPage: React.FC = ({navigation, route}) => {
       setInputValue('');
       slideInFromRight();
     } else {
-      console.log('answers', answers);
-      setTimeout(() => {
-        setTimeout(() => {
-          navigation.navigate('LoadingPage', {
-            isMedicare,
-            isCreditDebt,
-            isDiscountedInsurence,
-            isComponsation,
-            isACA,
-            name,
-          });
-        }, 1000);
-        sendMessagesToServer(answers);
-      }, 1000);
+      sendMessagesToServer(answers);
+      navigation.navigate('LoadingPage', {
+        isMedicare,
+        isCreditDebt,
+        isDiscountedInsurence,
+        isComponsation,
+        isACA,
+        name,
+      });
     }
   };
 
@@ -202,12 +202,12 @@ const QuestionPage: React.FC = ({navigation, route}) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  
+
   const validatePincode = (pincode: string): boolean => {
     const pinRegex = /^\d{5,6}$/;
     return pinRegex.test(pincode);
   };
-  
+
   // const handleTextSubmit = () => {
   //   if (inputValue.trim()) {
   //     handleNext(inputValue.trim());
@@ -216,22 +216,22 @@ const QuestionPage: React.FC = ({navigation, route}) => {
   const handleTextSubmit = () => {
     const trimmed = inputValue.trim();
     const questionId = currentQuestion.id;
-  
+
     if (!trimmed) return;
-  
+
     if (questionId === 3 && !validatePincode(trimmed)) {
       Alert.alert('Please enter a valid 5 or 6-digit zipcode.');
       return;
     }
-  
+
     if (questionId === 4 && !validateEmail(trimmed)) {
       Alert.alert('Please enter a valid email address.');
       return;
     }
-  
+
     handleNext(trimmed);
   };
-  
+
   const progress = (currentIndex + 1) / questions.length;
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     height: 80,
     zIndex: 10,
   },
-  
+
   subHeader: {
     position: 'absolute',
     top: 120, // directly below header
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     zIndex: 5,
   },
-  
+
   logo: {
     width: '60%',
     height: 60,

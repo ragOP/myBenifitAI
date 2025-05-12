@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {ImageBackground} from 'react-native';
+import {ActivityIndicator, ImageBackground} from 'react-native';
 
 const backgroundImage = require('../assets/back.png');
 const centerImage = require('../assets/center.png');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Lander = ({navigation}) => {
   const [uuid, setUuid] = useState<any>();
+  const [isLoading, setIsLoading] = useState(false);
   const storeUuid = async () => {
+    setIsLoading(true);
     try {
       const existingId = await AsyncStorage.getItem('uniqueUserId');
       console.log('Existing ID:', existingId);
@@ -34,6 +36,9 @@ const Lander = ({navigation}) => {
     } catch (error) {
       console.error('Error in storeUuid:', error);
     }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -44,6 +49,7 @@ const Lander = ({navigation}) => {
       source={backgroundImage}
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <ImageBackground source={centerImage} style={{width: 300, height: 100}} />
+      {isLoading && <ActivityIndicator size="large" color="#fff" />}
     </ImageBackground>
   );
 };
