@@ -233,6 +233,9 @@ const QuestionPage: React.FC = ({navigation, route}) => {
   };
 
   const progress = (currentIndex + 1) / questions.length;
+
+const progressPercentage = Math.round(progress * 100);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar
@@ -254,9 +257,12 @@ const QuestionPage: React.FC = ({navigation, route}) => {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.progressBarContainer}>
-            <View style={[styles.progressBar, {width: `${progress * 100}%`}]} />
-          </View>
+         <View style={styles.progressBarContainer}>
+  <View style={[styles.progressBar, {width: `${progressPercentage}%`}]}>
+    <Text style={styles.progressBarText}>{progressPercentage}%</Text>
+  </View>
+</View>
+
 
           <View style={styles.header}>
             <Image
@@ -377,23 +383,31 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontWeight: '600',
   },
-  progressBarContainer: {
-    height: 4,
-    backgroundColor: '#333',
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginBottom: 24,
-    position: 'relative',
-    top: '20%',
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#facc15',
-  },
+progressBarContainer: {
+  height: 24,
+  backgroundColor: '#333',
+  borderRadius: 12,
+  marginBottom: 24,
+  position: 'relative',
+  top: '20%',
+  justifyContent: 'center',
+  overflow: 'visible',  
+},
+
+progressBar: {
+  height: '100%',
+  backgroundColor: '#facc15',
+  borderRadius: 12,
+  justifyContent: 'center',
+  paddingLeft: 12,
+  minWidth: 40, 
+},
+
   inner: {
     flex: 1,
     justifyContent: 'center',
     paddingBottom: 60,
+    marginTop:100
   },
   questionText: {
     color: '#fff',
@@ -426,4 +440,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
   },
+
+
+progressBarText: {
+  color: 'black',
+  fontWeight: '700',
+  fontSize: 14,
+  zIndex:2
+},
+
+
 });
