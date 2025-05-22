@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "657737737797",
+    "project_id": "my-benefits-ai-77bc2",
+    "storage_bucket": "my-benefits-ai-77bc2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657737737797:android:806b11e575bfb72334252c",
+        "android_client_info": {
+          "package_name": "com.mybenefitsai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9BlxX2ncJx-WLpd8tXhWfkonoxsgKQqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

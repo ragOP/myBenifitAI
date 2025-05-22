@@ -337,8 +337,8 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontWeight: '800',
   },
-  highlightText: {color: '#e4d14f', fontWeight: 'bold'},
-  subText: {color: '#FFF', fontSize: 16, fontStyle: 'italic', marginTop: 10},
+  highlightText: {color: '#e4d14f', fontWeight: 'bold',textDecorationLine: 'underline'},
+  subText: {color: '#FFF', fontSize: 16, fontStyle: 'italic', marginTop: 30},
   redBanner: {
     backgroundColor: '#de1819',
     paddingVertical: 10,
