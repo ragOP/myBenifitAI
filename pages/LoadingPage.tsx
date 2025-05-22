@@ -34,7 +34,7 @@ export default function LoadingPage({navigation, route}) {
         }
         return next;
       });
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);

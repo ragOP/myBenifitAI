@@ -165,12 +165,12 @@ const QuestionPage: React.FC = ({navigation, route}) => {
 
   const handleNext = (answer: string) => {
     if (questions[currentIndex].id === 7) {
-      setIsDiscountedInsurance(answer === 'Yes');
+      setIsDiscountedInsurance(answer === 'I Own');
     } else if (questions[currentIndex].id === 8) {
       setIsComponsation(answer === 'Yes');
     } else if (questions[currentIndex].id === 9) {
       setIsACA(answer === 'Yes');
-    } else if (questions[currentIndex].id === 10) {
+    } else if (questions[currentIndex].id === 12) {
       setIsCreditDebt(answer === 'Yes');
     }
 
@@ -234,7 +234,7 @@ const QuestionPage: React.FC = ({navigation, route}) => {
 
   const progress = (currentIndex + 1) / questions.length;
 
-const progressPercentage = Math.round(progress * 100);
+  const progressPercentage = Math.round(progress * 100);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -257,12 +257,12 @@ const progressPercentage = Math.round(progress * 100);
         </View>
 
         <View style={styles.container}>
-         <View style={styles.progressBarContainer}>
-  <View style={[styles.progressBar, {width: `${progressPercentage}%`}]}>
-    <Text style={styles.progressBarText}>{progressPercentage}%</Text>
-  </View>
-</View>
-
+          <View style={styles.progressBarContainer}>
+            <View
+              style={[styles.progressBar, {width: `${progressPercentage}%`}]}>
+              <Text style={styles.progressBarText}>{progressPercentage}%</Text>
+            </View>
+          </View>
 
           <View style={styles.header}>
             <Image
@@ -382,32 +382,35 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 1,
     fontWeight: '600',
+  },  
+  progressBarContainer: {
+    height: 24,
+    backgroundColor: '#333',
+    borderRadius: 12,
+    marginBottom: 24,
+    position: 'absolute',
+    top: 180,
+    left: 24,
+    right: 24,
+    justifyContent: 'center',
+    overflow: 'visible',
+    zIndex: 10,
   },
-progressBarContainer: {
-  height: 24,
-  backgroundColor: '#333',
-  borderRadius: 12,
-  marginBottom: 24,
-  position: 'relative',
-  top: '20%',
-  justifyContent: 'center',
-  overflow: 'visible',  
-},
 
-progressBar: {
-  height: '100%',
-  backgroundColor: '#facc15',
-  borderRadius: 12,
-  justifyContent: 'center',
-  paddingLeft: 12,
-  minWidth: 40, 
-},
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#facc15',
+    borderRadius: 12,
+    justifyContent: 'center',
+    paddingLeft: 12,
+    minWidth: 40,
+  },
 
   inner: {
     flex: 1,
     justifyContent: 'center',
     paddingBottom: 60,
-    marginTop:100
+    marginTop: 100,
   },
   questionText: {
     color: '#fff',
@@ -441,13 +444,10 @@ progressBar: {
     color: '#fff',
   },
 
-
-progressBarText: {
-  color: 'black',
-  fontWeight: '700',
-  fontSize: 14,
-  zIndex:2
-},
-
-
+  progressBarText: {
+    color: 'black',
+    fontWeight: '700',
+    fontSize: 14,
+    zIndex: 2,
+  },
 });

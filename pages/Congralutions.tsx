@@ -117,11 +117,9 @@ const Congratulations = ({route}) => {
                   Simply click below & call now to claim
                 </Text>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('tel:+918447648730')}
+                  onPress={() => Linking.openURL('tel:+13236897861')}
                   style={styles.callButton}>
-                  <Text style={styles.callButtonText}>
-                    CALL +91 84476 48730
-                  </Text>
+                  <Text style={styles.callButtonText}>CALL (323) 689-7861</Text>
                   {/* <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text> */}
                 </TouchableOpacity>
                 <Text style={styles.note}>
@@ -154,8 +152,10 @@ const Congratulations = ({route}) => {
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity style={styles.callButton}>
-                  <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text>
+                <TouchableOpacity
+                  style={styles.callButton}
+                  onPress={() => Linking.openURL('tel:+18333402442')}>
+                  <Text style={styles.callButtonText}>CALL (833) 340-2442</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
@@ -182,14 +182,20 @@ const Congratulations = ({route}) => {
                   style={styles.cardImage2}
                 />
                 <Text style={styles.cardDescription}>
-                  Aman, You're <Text style={styles.greenText}>eligible</Text>{' '}
+                  {name}, You're <Text style={styles.greenText}>eligible</Text>{' '}
                   for a "Discounted Auto Insurance Plan" with all the coverages.
                 </Text>
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity style={styles.callButton}>
-                  <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text>
+                <TouchableOpacity
+                  style={styles.callButton}
+                  onPress={() =>
+                    Linking.openURL(
+                      'https://www.roadwayrelief.com/get-quote-am/',
+                    )
+                  }>
+                  <Text style={styles.callButtonText}>MVA link</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
@@ -225,8 +231,10 @@ const Congratulations = ({route}) => {
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity style={styles.callButton}>
-                  <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text>
+                <TouchableOpacity
+                  style={styles.callButton}
+                  onPress={() => Linking.openURL('tel:+16197753027')}>
+                  <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
@@ -258,8 +266,10 @@ const Congratulations = ({route}) => {
                 <Text style={styles.instructionText}>
                   Simply click below & call now to claim
                 </Text>
-                <TouchableOpacity style={styles.callButton}>
-                  <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text>
+                <TouchableOpacity
+                  style={styles.callButton}
+                  onPress={() => Linking.openURL('tel:+16197753027')}>
+                  <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
@@ -315,7 +325,7 @@ const styles = StyleSheet.create({
   greenContainer: {width: '90%', marginTop: 20, alignItems: 'center'},
   congratsText: {
     color: '#FFF',
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: '800',
     textAlign: 'center',
     marginVertical: 5,
