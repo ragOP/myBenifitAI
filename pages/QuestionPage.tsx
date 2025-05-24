@@ -409,8 +409,7 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     justifyContent: 'center',
-    paddingBottom: 60,
-    marginTop: 100,
+paddingTop: 220,
   },
   questionText: {
     color: '#fff',
