@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   instructionText: {fontSize: 16, marginVertical: 10, color: '#000'},
   callButton: {
     backgroundColor: '#328c57',
-    paddingVertical: 15,
+    paddingVertical: 19,
     alignItems: 'center',
     borderRadius: 50,
     width: '100%',
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   callButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 24,
   },
   note: {
     fontSize: 10,
