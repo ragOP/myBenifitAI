@@ -195,7 +195,7 @@ const Congratulations = ({route}) => {
                       'https://www.roadwayrelief.com/get-quote-am/',
                     )
                   }>
-                  <Text style={styles.callButtonText}>MVA link</Text>
+                  <Text style={styles.callButtonText}>CLICK HERE TO PROCEED</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on

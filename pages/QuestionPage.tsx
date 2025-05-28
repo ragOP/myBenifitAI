@@ -232,9 +232,11 @@ const QuestionPage: React.FC = ({navigation, route}) => {
     handleNext(trimmed);
   };
 
-  const progress = (currentIndex + 1) / questions.length;
-
-  const progressPercentage = Math.round(progress * 100);
+  const progress = questions.length > 1 ? currentIndex / (questions.length - 1) : 1;
+  let progressPercentage = Math.round(progress * 100);
+  if( progressPercentage === 8) {
+    progressPercentage = 12;
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -403,7 +405,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     paddingLeft: 12,
-    minWidth: 40,
+    minWidth: 35,
   },
 
   inner: {
