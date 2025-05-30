@@ -14,6 +14,9 @@ import {
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const backgroundImage = require('../assets/back.png');
+import firestore from '@react-native-firebase/firestore';
+import analytics from '@react-native-firebase/analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Congratulations = ({route}) => {
   const {
@@ -33,6 +36,75 @@ const Congratulations = ({route}) => {
 
     return unsubscribe;
   }, [navigation]);
+
+  const eventMapping = {
+    ACA: 'aca_button_click',
+    'Food Allowance Card': 'food_allowance_button_click',
+    'Credit Card Debt Relief': 'credit_card_debt_relief_button_click',
+    'Higher Compensation': 'higher_compensation_button_click',
+    'Discounted Auto Insurance Plan':
+      'discounted_auto_insurance_button_click',
+  };
+
+  const handleCallClick = async (buttonLabel: keyof typeof eventMapping) => {
+    const eventName = eventMapping[buttonLabel];
+    await analytics().logEvent(eventName, {
+      button_name: buttonLabel,
+      screen: 'Congratulations',
+      click_time: new Date().toISOString(),
+      user_id: await AsyncStorage.getItem('uniqueUserId'),
+    });
+    console.log(`Calling from: ${eventName}`);
+  };
+
+  const handleCallPress = async (phoneNumber: string, benefitName: string) => {
+    const existingId = await AsyncStorage.getItem('uniqueUserId');
+
+    const qualifiedFor = [
+      isMedicare && 'Medicare',
+      isCreditDebt && 'Credit Debt Relief',
+      isDiscountedInsurence && 'Discounted Insurance',
+      isComponsation && 'Compensation',
+      isACA && 'ACA',
+    ].filter(Boolean);
+
+    const callData = {
+      userId: existingId,
+      clikedOn: [benefitName],
+      qualifedFor: qualifiedFor,
+    };
+
+    await handleCallClick(benefitName as keyof typeof eventMapping);
+
+    try {
+      const querySnapshot = await firestore()
+        .collection('callClicks')
+        .where('userId', '==', existingId)
+        .limit(1)
+        .get();
+
+      if (!querySnapshot.empty) {
+        const docRef = querySnapshot.docs[0].ref;
+        const existingData = querySnapshot.docs[0].data();
+
+        await docRef.update({
+          clikedOn: firestore.FieldValue.arrayUnion(benefitName),
+          qualifedFor: firestore.FieldValue.arrayUnion(...qualifiedFor),
+        });
+      } else {
+        await firestore().collection('callClicks').add(callData);
+      }
+
+      console.log('Call click logged successfully');
+      if (phoneNumber.startsWith('http')) {
+        Linking.openURL(phoneNumber);
+      } else {
+        Linking.openURL(`tel:${phoneNumber}`);
+      }
+    } catch (error) {
+      console.error('Error logging call click:', error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -117,7 +189,9 @@ const Congratulations = ({route}) => {
                   Simply click below & call now to claim
                 </Text>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('tel:+13236897861')}
+                  onPressIn={() =>
+                    handleCallPress('+13236897861', 'Food Allowance Card')
+                  }
                   style={styles.callButton}>
                   <Text style={styles.callButtonText}>CALL (323) 689-7861</Text>
                   {/* <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text> */}
@@ -154,7 +228,9 @@ const Congratulations = ({route}) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.callButton}
-                  onPress={() => Linking.openURL('tel:+18333402442')}>
+                  onPress={() =>
+                    handleCallPress('+18333402442', 'Credit Card Debt Relief')
+                  }>
                   <Text style={styles.callButtonText}>CALL (833) 340-2442</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
@@ -191,11 +267,14 @@ const Congratulations = ({route}) => {
                 <TouchableOpacity
                   style={styles.callButton}
                   onPress={() =>
-                    Linking.openURL(
+                    handleCallPress(
                       'https://www.roadwayrelief.com/get-quote-am/',
+                      'Discounted Auto Insurance Plan',
                     )
                   }>
-                  <Text style={styles.callButtonText}>CLICK HERE TO PROCEED</Text>
+                  <Text style={styles.callButtonLink}>
+                    CLICK HERE TO PROCEED
+                  </Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
                   *Takes <Text style={styles.boldText}>couple minutes</Text> on
@@ -233,7 +312,9 @@ const Congratulations = ({route}) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.callButton}
-                  onPress={() => Linking.openURL('tel:+16197753027')}>
+                  onPress={() =>
+                    handleCallPress('+16197753027', 'Higher Compensation')
+                  }>
                   <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
@@ -268,7 +349,7 @@ const Congratulations = ({route}) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.callButton}
-                  onPress={() => Linking.openURL('tel:+16197753027')}>
+                  onPress={() => handleCallPress('+16197753027', 'ACA')}>
                   <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
@@ -337,7 +418,11 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontWeight: '800',
   },
-  highlightText: {color: '#e4d14f', fontWeight: 'bold',textDecorationLine: 'underline'},
+  highlightText: {
+    color: '#e4d14f',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
   subText: {color: '#FFF', fontSize: 16, fontStyle: 'italic', marginTop: 30},
   redBanner: {
     backgroundColor: '#de1819',
@@ -394,6 +479,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 24,
+  },
+  callButtonLink: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   note: {
     fontSize: 10,
