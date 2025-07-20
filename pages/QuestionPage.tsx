@@ -386,27 +386,29 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },  
   progressBarContainer: {
-    height: 24,
-    backgroundColor: '#333',
-    borderRadius: 12,
-    marginBottom: 24,
-    position: 'absolute',
-    top: 180,
-    left: 24,
-    right: 24,
-    justifyContent: 'center',
-    overflow: 'visible',
-    zIndex: 10,
-  },
+  height: 24,
+  backgroundColor: '#333',
+  borderRadius: 12,
+  marginBottom: 24,
+  position: 'absolute',
+  top: 180,
+  left: 24,
+  right: 24,
+  justifyContent: 'center',
+  overflow: 'hidden', // changed from 'visible' to 'hidden'
+  zIndex: 10,
+},
 
-  progressBar: {
-    height: '100%',
-    backgroundColor: '#facc15',
-    borderRadius: 12,
-    justifyContent: 'center',
-    paddingLeft: 12,
-    minWidth: 35,
-  },
+progressBar: {
+  height: '100%',
+  backgroundColor: '#facc15',
+  borderRadius: 12,
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  paddingLeft: 12,
+  minWidth: 50, // ensures room for '0%'
+},
+
 
   inner: {
     flex: 1,

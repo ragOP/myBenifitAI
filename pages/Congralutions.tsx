@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,13 @@ import {
   Linking,
   BackHandler,
 } from 'react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-const backgroundImage = require('../assets/back.png');
-import firestore from '@react-native-firebase/firestore';
-import analytics from '@react-native-firebase/analytics';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Congratulations = ({route}) => {
+const backgroundImage = require('../assets/back.png');
+
+const Congratulations = ({ route }) => {
   const {
     isMedicare,
     isCreditDebt,
@@ -29,6 +28,7 @@ const Congratulations = ({route}) => {
   } = route.params;
 
   const navigation = useNavigation();
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
       e.preventDefault();
@@ -37,85 +37,24 @@ const Congratulations = ({route}) => {
     return unsubscribe;
   }, [navigation]);
 
-  const eventMapping = {
-    ACA: 'aca_button_click',
-    'Food Allowance Card': 'food_allowance_button_click',
-    'Credit Card Debt Relief': 'credit_card_debt_relief_button_click',
-    'Higher Compensation': 'higher_compensation_button_click',
-    'Discounted Auto Insurance Plan':
-      'discounted_auto_insurance_button_click',
-  };
-
-  const handleCallClick = async (buttonLabel: keyof typeof eventMapping) => {
-    const eventName = eventMapping[buttonLabel];
-    await analytics().logEvent(eventName, {
-      button_name: buttonLabel,
-      screen: 'Congratulations',
-      click_time: new Date().toISOString(),
-      user_id: await AsyncStorage.getItem('uniqueUserId'),
-    });
-    console.log(`Calling from: ${eventName}`);
-  };
-
-  const handleCallPress = async (phoneNumber: string, benefitName: string) => {
+  const handleCallPress = async (phoneNumber, benefitName) => {
     const existingId = await AsyncStorage.getItem('uniqueUserId');
+    console.log('User clicked:', benefitName, 'UserID:', existingId);
 
-    const qualifiedFor = [
-      isMedicare && 'Medicare',
-      isCreditDebt && 'Credit Debt Relief',
-      isDiscountedInsurence && 'Discounted Insurance',
-      isComponsation && 'Compensation',
-      isACA && 'ACA',
-    ].filter(Boolean);
-
-    const callData = {
-      userId: existingId,
-      clikedOn: [benefitName],
-      qualifedFor: qualifiedFor,
-    };
-
-    await handleCallClick(benefitName as keyof typeof eventMapping);
-
-    try {
-      const querySnapshot = await firestore()
-        .collection('callClicks')
-        .where('userId', '==', existingId)
-        .limit(1)
-        .get();
-
-      if (!querySnapshot.empty) {
-        const docRef = querySnapshot.docs[0].ref;
-        const existingData = querySnapshot.docs[0].data();
-
-        await docRef.update({
-          clikedOn: firestore.FieldValue.arrayUnion(benefitName),
-          qualifedFor: firestore.FieldValue.arrayUnion(...qualifiedFor),
-        });
-      } else {
-        await firestore().collection('callClicks').add(callData);
-      }
-
-      console.log('Call click logged successfully');
-      if (phoneNumber.startsWith('http')) {
-        Linking.openURL(phoneNumber);
-      } else {
-        Linking.openURL(`tel:${phoneNumber}`);
-      }
-    } catch (error) {
-      console.error('Error logging call click:', error);
+    if (phoneNumber.startsWith('http')) {
+      Linking.openURL(phoneNumber);
+    } else {
+      Linking.openURL(`tel:${phoneNumber}`);
     }
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      const onBackPress = () => {
-        return true;
-      };
+      const onBackPress = () => true;
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
       return () =>
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, []),
+    }, [])
   );
 
   const [totalBenefits, setTotalBenefits] = useState(0);
@@ -127,40 +66,26 @@ const Congratulations = ({route}) => {
       isDiscountedInsurence,
       isComponsation,
       isACA,
-    ].filter(item => item === true).length;
+    ].filter(Boolean).length;
     setTotalBenefits(total);
   }, []);
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent={true}
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       <ScrollView>
         <ImageBackground source={backgroundImage} style={styles.container}>
           <View style={styles.header}>
-            <Image
-              source={require('../assets/center.png')}
-              style={styles.logo}
-            />
+            <Image source={require('../assets/center.png')} style={styles.logo} />
           </View>
           <View style={styles.subHeader}>
-            <Text style={styles.subHeaderText}>
-              22,578 Seniors Helped In Last 24 Hours!
-            </Text>
+            <Text style={styles.subHeaderText}>22,578 Seniors Helped In Last 24 Hours!</Text>
           </View>
-
-          <View style={styles.greenContainer}>… … …</View>
 
           <View style={styles.greenContainer}>
             <Text style={styles.congratsText}>Congratulations, {name}!</Text>
             <Text style={styles.benefitText}>
-              Here are the{' '}
-              <Text style={styles.highlightText}>{totalBenefits}</Text>{' '}
+              Here are the <Text style={styles.highlightText}>{totalBenefits}</Text>{' '}
               {totalBenefits > 1 ? 'Benefits' : 'Benefit'} You Qualify For:
             </Text>
             <Text style={styles.subText}>Go one by one!</Text>
@@ -171,34 +96,24 @@ const Congratulations = ({route}) => {
               <View style={styles.redBanner}>
                 <Text style={styles.redBannerText}>Easiest To Claim</Text>
               </View>
-
               <View style={styles.cardContainer}>
                 <Text style={styles.cardTitle}>
                   <Text style={styles.boldText}>Food Allowance Card</Text>
                 </Text>
-                <Image
-                  source={require('../assets/benifit1.webp')}
-                  style={styles.cardImage}
-                />
+                <Image source={require('../assets/benifit1.webp')} style={styles.cardImage} />
                 <Text style={styles.cardDescription}>
-                  This food allowance card gives you{' '}
-                  <Text style={styles.greenText}>thousands of dollars</Text> a
+                  This food allowance card gives you <Text style={styles.greenText}>thousands of dollars</Text> a
                   year to spend on groceries, rent, prescriptions, etc.
                 </Text>
-                <Text style={styles.instructionText}>
-                  Simply click below & call now to claim
-                </Text>
+                <Text style={styles.instructionText}>Simply click below & call now to claim</Text>
                 <TouchableOpacity
-                  onPressIn={() =>
-                    handleCallPress('+13236897861', 'Food Allowance Card')
-                  }
-                  style={styles.callButton}>
+                  onPressIn={() => handleCallPress('+13236897861', 'Food Allowance Card')}
+                  style={styles.callButton}
+                >
                   <Text style={styles.callButtonText}>CALL (323) 689-7861</Text>
-                  {/* <Text style={styles.callButtonText}>CALL (XXX) XXX-XXXX</Text> */}
                 </TouchableOpacity>
                 <Text style={styles.note}>
-                  *Takes <Text style={styles.boldText}>couple minutes</Text> on
-                  average
+                  *Takes <Text style={styles.boldText}>couple minutes</Text> on average
                 </Text>
               </View>
             </>
@@ -209,33 +124,24 @@ const Congratulations = ({route}) => {
               <View style={styles.redBanner}>
                 <Text style={styles.redBannerText}>WORTH THE MOST $$</Text>
               </View>
-
               <View style={styles.cardContainer}>
                 <Text style={styles.cardTitle}>
                   <Text style={styles.boldText}>CREDIT CARD DEBT RELIEF</Text>
                 </Text>
-                <Image
-                  source={require('../assets/benifit2.webp')}
-                  style={styles.cardImage2}
-                />
+                <Image source={require('../assets/benifit2.webp')} style={styles.cardImage2} />
                 <Text style={styles.cardDescription}>
-                  {name}, You're qualified to claim 100% Debt Relief by end of
-                  today
+                  {name}, You're qualified to claim 100% Debt Relief by end of today
                   <Text style={styles.greenText}>(RARE)</Text>
                 </Text>
-                <Text style={styles.instructionText}>
-                  Simply click below & call now to claim
-                </Text>
+                <Text style={styles.instructionText}>Simply click below & call now to claim</Text>
                 <TouchableOpacity
                   style={styles.callButton}
-                  onPress={() =>
-                    handleCallPress('+18333402442', 'Credit Card Debt Relief')
-                  }>
+                  onPress={() => handleCallPress('+18333402442', 'Credit Card Debt Relief')}
+                >
                   <Text style={styles.callButtonText}>CALL (833) 340-2442</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
-                  *Takes <Text style={styles.boldText}>couple minutes</Text> on
-                  average
+                  *Takes <Text style={styles.boldText}>couple minutes</Text> on average
                 </Text>
               </View>
             </>
@@ -246,39 +152,26 @@ const Congratulations = ({route}) => {
               <View style={styles.redBanner}>
                 <Text style={styles.redBannerText}>MUST CLAIM!</Text>
               </View>
-
               <View style={styles.cardContainer}>
                 <Text style={styles.cardTitle}>
-                  <Text style={styles.boldText}>
-                    Discounted Auto Insurance Plan
-                  </Text>
+                  <Text style={styles.boldText}>Discounted Auto Insurance Plan</Text>
                 </Text>
-                <Image
-                  source={require('../assets/benifit3.webp')}
-                  style={styles.cardImage2}
-                />
+                <Image source={require('../assets/benifit3.webp')} style={styles.cardImage2} />
                 <Text style={styles.cardDescription}>
-                  {name}, You're <Text style={styles.greenText}>eligible</Text>{' '}
-                  for a "Discounted Auto Insurance Plan" with all the coverages.
+                  {name}, You're <Text style={styles.greenText}>eligible</Text> for a "Discounted Auto Insurance Plan"
+                  with all the coverages.
                 </Text>
-                <Text style={styles.instructionText}>
-                  Simply click below & call now to claim
-                </Text>
+                <Text style={styles.instructionText}>Simply click below & call now to claim</Text>
                 <TouchableOpacity
                   style={styles.callButton}
                   onPress={() =>
-                    handleCallPress(
-                      'https://www.roadwayrelief.com/get-quote-am/',
-                      'Discounted Auto Insurance Plan',
-                    )
-                  }>
-                  <Text style={styles.callButtonLink}>
-                    CLICK HERE TO PROCEED
-                  </Text>
+                    handleCallPress('https://www.roadwayrelief.com/get-quote-am/', 'Discounted Auto Insurance Plan')
+                  }
+                >
+                  <Text style={styles.callButtonLink}>CLICK HERE TO PROCEED</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
-                  *Takes <Text style={styles.boldText}>couple minutes</Text> on
-                  average
+                  *Takes <Text style={styles.boldText}>couple minutes</Text> on average
                 </Text>
               </View>
             </>
@@ -289,37 +182,25 @@ const Congratulations = ({route}) => {
               <View style={styles.redBanner}>
                 <Text style={styles.redBannerText}>GET UPTO $100,000+!</Text>
               </View>
-
               <View style={styles.cardContainer}>
                 <Text style={styles.cardTitle}>
-                  <Text style={styles.boldText}>
-                    GET HIGHER COMPENSATION FOR YOUR ACCIDENT.
-                  </Text>
+                  <Text style={styles.boldText}>GET HIGHER COMPENSATION FOR YOUR ACCIDENT.</Text>
                 </Text>
-                <Image
-                  source={require('../assets/benifit4.webp')}
-                  style={styles.cardImage2}
-                />
+                <Image source={require('../assets/benifit4.webp')} style={styles.cardImage2} />
                 <Text style={styles.cardDescription}>
                   Based on your answers, you might be eligible for a
-                  <Text style={styles.greenText}> higher compensation</Text> on
-                  your accident. (Most people get{' '}
-                  <Text style={styles.greenText}>3x</Text> of their past
-                  compensations)
+                  <Text style={styles.greenText}> higher compensation</Text> on your accident. (Most people get{' '}
+                  <Text style={styles.greenText}>3x</Text> of their past compensations)
                 </Text>
-                <Text style={styles.instructionText}>
-                  Simply click below & call now to claim
-                </Text>
+                <Text style={styles.instructionText}>Simply click below & call now to claim</Text>
                 <TouchableOpacity
                   style={styles.callButton}
-                  onPress={() =>
-                    handleCallPress('+16197753027', 'Higher Compensation')
-                  }>
+                  onPress={() => handleCallPress('+16197753027', 'Higher Compensation')}
+                >
                   <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
-                  *Takes <Text style={styles.boldText}>couple minutes</Text> on
-                  average
+                  *Takes <Text style={styles.boldText}>couple minutes</Text> on average
                 </Text>
               </View>
             </>
@@ -330,42 +211,26 @@ const Congratulations = ({route}) => {
               <View style={styles.redBanner}>
                 <Text style={styles.redBannerText}>Easiest To Claim</Text>
               </View>
-
               <View style={styles.cardContainer}>
                 <Text style={styles.cardTitle}>
                   <Text style={styles.boldText}>ACA</Text>
                 </Text>
-                <Image
-                  source={require('../assets/benifit1.webp')}
-                  style={styles.cardImage2}
-                />
+                <Image source={require('../assets/benifit1.webp')} style={styles.cardImage2} />
                 <Text style={styles.cardDescription}>
                   This food allowance card gives you{' '}
-                  <Text style={styles.greenText}>thousands of dollars</Text> a
-                  year to spend on groceries, rent, prescriptions, etc.
+                  <Text style={styles.greenText}>thousands of dollars</Text> a year to spend on groceries, rent,
+                  prescriptions, etc.
                 </Text>
-                <Text style={styles.instructionText}>
-                  Simply click below & call now to claim
-                </Text>
-                <TouchableOpacity
-                  style={styles.callButton}
-                  onPress={() => handleCallPress('+16197753027', 'ACA')}>
+                <Text style={styles.instructionText}>Simply click below & call now to claim</Text>
+                <TouchableOpacity style={styles.callButton} onPress={() => handleCallPress('+16197753027', 'ACA')}>
                   <Text style={styles.callButtonText}>CALL (619) 775-3027</Text>
                 </TouchableOpacity>
                 <Text style={styles.note}>
-                  *Takes <Text style={styles.boldText}>couple minutes</Text> on
-                  average
+                  *Takes <Text style={styles.boldText}>couple minutes</Text> on average
                 </Text>
               </View>
             </>
           )}
-
-          <Text style={styles.warningText}>
-            {/* Beware of other fraudulent & similar looking websites that might
-            look exactly like ours, we have no affiliation with them. This is
-            the only official website to claim your Burial Protection Plan with
-            the domain name burialprotectionplan.org. */}
-          </Text>
         </ImageBackground>
       </ScrollView>
     </SafeAreaView>
